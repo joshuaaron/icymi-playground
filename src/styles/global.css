@@ -1,0 +1,61 @@
+:root {
+    --size: 1rem;
+    /* dynamic spacing adapted from utopia.fyi */
+    --space-2xs: clamp(0.31rem, calc(0.18rem + 0.65vw), 0.69rem);
+    --space-xs: clamp(0.56rem, calc(0.39rem + 0.87vw), 1.06rem);
+    --space-sm: clamp(0.88rem, calc(0.7rem + 0.87vw), 1.38rem);
+    --space-md: clamp(1.13rem, calc(0.8rem + 1.63vw), 2.06rem);
+    --space-lg: clamp(1.69rem, calc(1.32rem + 1.85vw), 2.75rem);
+    --space-xl: clamp(2.25rem, calc(1.6rem + 3.26vw), 4.13rem);
+    --space-2xl: clamp(3.38rem, calc(2.64rem + 3.7vw), 5.5rem);
+    --space-3xl: clamp(4.5rem, calc(3.2rem + 6.52vw), 8.25rem);
+
+    /* content sizes */
+    --content-xs: 20ch;
+    --content-sm: 30ch;
+    --content-md: 45ch;
+    --content-lg: 65ch;
+
+    /* border */
+    --border-sm: 1px;
+    --border-md: 3px;
+    --border-lg: 5px;
+
+    /* radius */
+    --radius-sm: 0.2em;
+    --radius-md: 0.4em;
+    --radius-lg: 0.8em;
+    --radius-full: 100vmax;
+
+    /* transitions */
+    --_tspeed_fast: 150ms;
+    --_tspeed_slow: 400ms;
+    --_ttiming_ease: cubic-bezier(0.3, 0, 0.7, 1);
+    --_ttiming_squish: cubic-bezier(0.5, -0.3, 0.1, 1.5);
+    --transition-ease-slow: var(--_tspeed_slow) var(--_ttiming_ease);
+    --transition-ease-fast: var(--_tspeed_fast) var(--_ttiming_ease);
+    --transition-squish-slow: var(--_tspeed_slow) var(--_ttiming_squish);
+    --transition-squish-fast: var(--_tspeed_fast) var(--_ttiming_squish);
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font: inherit;
+}
+
+nav :where(ol, ul) {
+    list-style: none;
+}
+
+:where(p, h1, h2, h3, h4) {
+    overflow-wrap: break-word;
+}
+
+:where(img, picture) {
+    display: block;
+    max-width: 100%;
+}

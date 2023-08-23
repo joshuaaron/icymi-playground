@@ -1,0 +1,19 @@
+---
+import MainHead from '@layouts/MainHead.astro';
+import '../../src/styles/global.css';
+
+type Props = {
+    title: string;
+    description: string;
+};
+
+const {title = 'ICYMI UI Demo', description = 'A demo of some new CSS/JS features'} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+    <MainHead {title} {description} />
+    <body>
+        <slot />
+    </body>
+</html>

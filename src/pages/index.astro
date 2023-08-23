@@ -1,0 +1,19 @@
+---
+import Link from '@components/Link.astro';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title='Welcome to Astro.' description=''>
+    <main transition:name='main'>Welcome</main>
+    <Link href='#' style='primary' text='/' />
+</Layout>
+
+<style>
+    main {
+        margin: auto;
+        padding: 1rem;
+        width: min(calc(100% - 2rem), 800px);
+        font-size: 20px;
+        line-height: 1.6;
+    }
+</style>
