@@ -1,0 +1,21 @@
+---
+import Link from '@components/Link.astro';
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout title='Page not found'>
+    <section>
+        <div>
+            <p>Uh ohh...</p>
+            <Link text='Return home' href='/' style='primary' />
+        </div>
+    </section>
+</Layout>
+
+<style>
+    section {
+        height: 100dvh;
+        display: grid;
+        place-items: center;
+    }
+</style>

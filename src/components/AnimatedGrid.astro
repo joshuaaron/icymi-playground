@@ -1,0 +1,166 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const animatedGridCss = `.grid {
+    grid-template-rows: 0fr;
+    transition: 400ms ease-out;
+}
+
+.grid--open {
+    grid-template-rows: 1fr;
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Animating Grid Tracks</TransitionHeader>
+        <CodeBlock code={animatedGridCss} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock height='440px'>
+            <main class='container'>
+                <section class='accordion-item'>
+                    <div class='accordion-header' aria-expanded='true' aria-controls='toggle-list'>
+                        <div class='title'>Birthday List</div>
+                        <i class='icon'></i>
+                    </div>
+                    <div class='grid expanded' id='toggle-list' aria-hidden='false'>
+                        <ul class='list'>
+                            <li style='--index: 0'>Penguins</li>
+                            <li style='--index: 1'>Surfboards</li>
+                            <li style='--index: 2'>Surfboarding Penguins</li>
+                            <li style='--index: 3'>Socks</li>
+                        </ul>
+                    </div>
+                </section>
+                <section class='accordion-item'>
+                    <div class='accordion-header' aria-expanded='true' aria-controls='toggle-list'>
+                        <div class='title'>Christmas List</div>
+                        <i class='icon'></i>
+                    </div>
+                    <div class='grid expanded' id='toggle-list' aria-hidden='false'>
+                        <ul class='list'>
+                            <li style='--index: 0'>Penguins</li>
+                            <li style='--index: 1'>Surfboards</li>
+                            <li style='--index: 2'>Surfboarding Penguins</li>
+                            <li style='--index: 3'>Socks</li>
+                        </ul>
+                    </div>
+                </section>
+            </main>
+        </ExampleBlock>
+        <ExampleBlock>
+            <video controls loop='true' autoplay='true' width='600'>
+                <source src='https://i.gyazo.com/31d1d2b0ae71d1fe9ff34349ae4847a2.mp4' />
+            </video>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    .container {
+        --container-bg: linear-gradient(to right, hsl(276 28% 45%), hsl(276 28% 55%));
+
+        background: hsl(0, 0%, 80%);
+        inline-size: 480px;
+    }
+
+    .grid {
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows var(--duration) var(--easing);
+    }
+
+    .accordion-header {
+        border-radius: 2px 2px 0 0;
+        background: var(--container-bg);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .list {
+        min-height: 0;
+        margin: 0;
+        padding: 0 1.75rem;
+        color: #222;
+    }
+
+    .grid.expanded {
+        grid-template-rows: 1fr;
+        & li {
+            opacity: 1;
+            transition: opacity var(--duration) var(--easing);
+            transition-delay: calc(var(--index) * 100ms);
+        }
+    }
+
+    .title {
+        padding: var(--spacing-sm) var(--spacing-md);
+        color: white;
+        font-weight: 500;
+    }
+
+    li {
+        padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-sm) 0;
+        margin: 0 0 0 var(--spacing-xs);
+        opacity: 0;
+        transition-delay: var(--duration);
+
+        &::marker {
+            content: '🐧 ';
+        }
+        &:nth-child(2)::marker {
+            content: '🏄‍♂️ ';
+        }
+        &:nth-child(3)::marker {
+            content: '🤔 ';
+        }
+        &:nth-child(4)::marker {
+            content: '🧦 ';
+        }
+    }
+
+    .icon {
+        width: 8px;
+        height: 8px;
+        border-style: solid;
+        border-color: white;
+        border-width: 0 2px 2px 0;
+        margin-right: var(--spacing-md);
+        transform: rotateZ(-45deg);
+        transform-origin: center;
+        transition: transform var(--duration) var(--easing);
+        &.expanded {
+            transform: rotateZ(45deg);
+        }
+    }
+</style>
+
+<script>
+    const qsa = (s: any) => document.querySelectorAll(s);
+    const headers = qsa('.accordion-header');
+
+    Array.from(headers).forEach((h) => {
+        h.onclick = () => {
+            const grid = h.nextElementSibling;
+            const icon = h.querySelector('.icon');
+            icon.classList.toggle('expanded');
+            grid.classList.toggle('expanded');
+            toggleAttrs([h, 'aria-expanded'], [grid, 'aria-hidden']);
+        };
+    });
+
+    const toggleAttrs = (...args: any[]) => {
+        args.forEach(([el, value]) => {
+            el.setAttribute(value, `${!(el.getAttribute(value) === 'true')}`);
+        });
+    };
+</script>

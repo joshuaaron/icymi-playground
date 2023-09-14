@@ -1,0 +1,158 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const demoCss = `if (document.startViewTransition) {
+  document.startViewTransition(() => {
+    // Mutate the dom
+    card.remove();
+  });
+} else {
+  card.remove();
+}
+`;
+
+const namedTransitions = `.card {
+    view-transition-name: card-remove
+}
+
+::view-transition-old(card-remove) {
+  animation: 300ms ease-out both full-slide-to-left;
+}
+
+::view-transition-new(card-remove) {
+  animation: 300ms ease-out both full-slide-from-right;
+}
+
+@keyframes slide-from-right {
+  from { transform: translateX(30px); }
+}
+
+@keyframes slide-to-left {
+  to { transform: translateX(-30px); }
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>View Transitions</TransitionHeader>
+        <p>
+            You can create a very simple View Transition by simplying wrapping your code that updates the DOM in a
+            document.startViewTransition()
+        </p>
+        <CodeBlock code={demoCss} lang='js' />
+        <p></p>
+        <p>You can target specific elements by passing a name into the view-transition pseudo class</p>
+        <p>
+            ::view-transition-old(root) is a screenshot of the old view, and ::view-transition-new(root) is a live
+            representation of the new view
+        </p>
+        <p>The browser handles animating between these two views, but you can customize the animation yourself!</p>
+        <CodeBlock code={namedTransitions} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <ul class='cards'>
+                <li class='card card-1'>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li class='card card-2'>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li class='card card-3'>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li class='card card-4'>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+            </ul>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+<style>
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(4, 145px);
+        gap: var(--spacing-md);
+
+        h2 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            font-size: 0.75rem;
+        }
+        button {
+            background: white;
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-sm);
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        li {
+            padding: var(--spacing-md) var(--spacing-sm);
+            border-radius: var(--radius-md);
+
+            &.fade-out {
+                animation: fade-out 0.25s forwards;
+            }
+        }
+    }
+    .card-1 {
+        view-transition-name: card-1;
+        background: hsl(140 50% 75%);
+    }
+
+    .card-2 {
+        view-transition-name: card-2;
+        background: hsl(240 50% 75%);
+    }
+
+    .card-3 {
+        view-transition-name: card-3;
+        background: hsl(320 50% 75%);
+    }
+
+    .card-4 {
+        view-transition-name: card-4;
+        background: hsl(350 50% 75%);
+    }
+</style>
+<script>
+    document.querySelectorAll('.delete-btn').forEach((btn) => {
+        const card = btn.parentElement;
+        btn.addEventListener('click', () => {
+            if (document.startViewTransition) {
+                document.startViewTransition(() => {
+                    card?.remove();
+                });
+            } else {
+                card?.remove();
+            }
+        });
+    });
+</script>

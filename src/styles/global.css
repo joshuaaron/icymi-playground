@@ -1,20 +1,26 @@
+@font-face {
+    font-family: 'ClashGrotesk';
+    src: url('/fonts/ClashGrotesk-Variable.woff2') format('woff2'),
+        url('/fonts/ClashGrotesk-Variable.woff2') format('woff2-variations');
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-    --size: 1rem;
-    /* dynamic spacing adapted from utopia.fyi */
-    --space-2xs: clamp(0.31rem, calc(0.18rem + 0.65vw), 0.69rem);
-    --space-xs: clamp(0.56rem, calc(0.39rem + 0.87vw), 1.06rem);
-    --space-sm: clamp(0.88rem, calc(0.7rem + 0.87vw), 1.38rem);
-    --space-md: clamp(1.13rem, calc(0.8rem + 1.63vw), 2.06rem);
-    --space-lg: clamp(1.69rem, calc(1.32rem + 1.85vw), 2.75rem);
-    --space-xl: clamp(2.25rem, calc(1.6rem + 3.26vw), 4.13rem);
-    --space-2xl: clamp(3.38rem, calc(2.64rem + 3.7vw), 5.5rem);
-    --space-3xl: clamp(4.5rem, calc(3.2rem + 6.52vw), 8.25rem);
+    --primary: hsl(155, 79%, 56%);
+    --dark-bg: hsl(240, 11%, 9%);
+    --light-bg: hsl(0 0% 92%);
 
     /* content sizes */
-    --content-xs: 20ch;
-    --content-sm: 30ch;
-    --content-md: 45ch;
-    --content-lg: 65ch;
+    --content: 65ch;
+
+    /* spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.25rem;
+    --spacing-xl: 2rem;
 
     /* border */
     --border-sm: 1px;
@@ -22,20 +28,37 @@
     --border-lg: 5px;
 
     /* radius */
-    --radius-sm: 0.2em;
-    --radius-md: 0.4em;
-    --radius-lg: 0.8em;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
     --radius-full: 100vmax;
 
     /* transitions */
-    --_tspeed_fast: 150ms;
-    --_tspeed_slow: 400ms;
-    --_ttiming_ease: cubic-bezier(0.3, 0, 0.7, 1);
-    --_ttiming_squish: cubic-bezier(0.5, -0.3, 0.1, 1.5);
-    --transition-ease-slow: var(--_tspeed_slow) var(--_ttiming_ease);
-    --transition-ease-fast: var(--_tspeed_fast) var(--_ttiming_ease);
-    --transition-squish-slow: var(--_tspeed_slow) var(--_ttiming_squish);
-    --transition-squish-fast: var(--_tspeed_fast) var(--_ttiming_squish);
+    --duration-fast: 150ms;
+    --duration: 350ms;
+    --easing: cubic-bezier(0.66, 0.05, 0.4, 0.9);
+    --bounce: linear(
+        0,
+        0.6832 7.89%,
+        0.9171 11.07%,
+        1.0251,
+        1.1058 14.9%,
+        1.1619 16.86%,
+        1.1945 18.91%,
+        1.2024 20.02%,
+        1.2043 21.18%,
+        1.1907,
+        1.1598 26.27%,
+        1.0604 32.59%,
+        1.0172 35.84%,
+        0.9839 39.49%,
+        0.967 43.26%,
+        0.9639 45.77%,
+        0.9661 48.59%,
+        0.9963 60.54%,
+        1.0054 67.42%,
+        1
+    );
 }
 
 *,
@@ -47,15 +70,77 @@
     font: inherit;
 }
 
-nav :where(ol, ul) {
+body {
+    font-family: Satoshi, sans-serif;
+    letter-spacing: 0.5px;
+    line-height: 1.4;
+}
+
+:where(ol, ul) {
     list-style: none;
 }
 
-:where(p, h1, h2, h3, h4) {
+:where(h1, h2, h3, h4) {
     overflow-wrap: break-word;
+    font-family: 'ClashGrotesk', sans-serif;
+    margin-block-end: var(--spacing-md);
+    font-weight: 500;
 }
 
-:where(img, picture) {
+:where(img, picture, video) {
     display: block;
     max-width: 100%;
+}
+
+:where(h1) {
+    font-size: 3rem;
+    font-weight: 600;
+}
+
+:where(p) {
+    font-size: 1.125rem;
+    margin-block-end: var(--spacing-md);
+    max-width: var(--content);
+}
+
+:where(hr) {
+    margin-block-end: 1rem;
+}
+
+::view-transition-new(demo-title),
+::view-transition-old(demo-title) {
+    height: 100%;
+    object-fit: none;
+    object-position: top left;
+}
+
+::view-transition-old(demo-title) {
+    animation-name: slide-out;
+    animation-duration: 0.75s;
+    animation-timing-function: var(--bounce);
+}
+::view-transition-new(demo-title) {
+    animation-name: slide-in;
+    animation-duration: 0.75s;
+    animation-timing-function: var(--bounce);
+}
+
+@keyframes slide-out {
+    100% {
+        opacity: 0;
+        translate: 0 100%;
+    }
+}
+
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        translate: 0 -100%;
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
 }

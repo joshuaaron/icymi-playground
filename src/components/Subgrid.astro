@@ -1,0 +1,106 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const markup = `<div class="wrapper">
+  <div class="item">
+    <!-- Title, description, and image -->
+  </div>
+  <div class="item">
+    <!-- Title, description, and image -->
+  </div>
+</div>
+`;
+
+const subgridCss = `.wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0.5rem;
+}
+
+.item {
+    /* Make sure that each .item spans from row 1 to 4 */
+    grid-row: 1 / 4;
+    /** Create a grid container */
+    display: grid;
+    /** Apply subgrid - inherit the grid from parent .wrapper */
+    grid-template-rows: subgrid;
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Subgrid</TransitionHeader>
+        <p>
+            You can "nest" grids by making a grid item a grid container. These grids, however, are independent of the
+            parent grid and of each other, meaning that they do not take their track sizing from the parent grid.
+        </p>
+        <p>This makes it difficult to line nested grid items up with the main grid.</p>
+        <CodeBlock code={markup} lang='html' filename='markup' />
+        <CodeBlock code={subgridCss} lang='css' filename='subgrid code' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <h4>Without subgrid</h4>
+            <div class='wrapper'>
+                <div class='item'>
+                    <h4>News 07/04/2025</h4>
+                    <p>Lorem ipsum dolor sit.</p>
+                    <img
+                        src='https://images.pexels.com/photos/12795251/pexels-photo-12795251.jpeg?auto=compress&cs=tinysrgb&w=300'
+                        alt='news'
+                    />
+                </div>
+                <div class='item'>
+                    <h4>News 08/04/2025</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <img
+                        src='https://images.pexels.com/photos/5835416/pexels-photo-5835416.jpeg?auto=compress&cs=tinysrgb&w=300'
+                        alt='news 2'
+                    />
+                </div>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <h4>With subgrid</h4>
+            <div class='wrapper'>
+                <div class='item item-subgrid'>
+                    <h4>News 07/04/2025</h4>
+                    <p>Lorem ipsum dolor sit.</p>
+                    <img
+                        src='https://images.pexels.com/photos/12795251/pexels-photo-12795251.jpeg?auto=compress&cs=tinysrgb&w=300'
+                        alt='news'
+                    />
+                </div>
+                <div class='item item-subgrid'>
+                    <h4>News 08/04/2025</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <img
+                        src='https://images.pexels.com/photos/5835416/pexels-photo-5835416.jpeg?auto=compress&cs=tinysrgb&w=300'
+                        alt='news 2'
+                    />
+                </div>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    .wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: var(--spacing-sm);
+    }
+    .item {
+        width: 300px;
+        grid-row: 1 / 4;
+        display: grid;
+    }
+    .item-subgrid {
+        grid-template-rows: subgrid;
+    }
+</style>

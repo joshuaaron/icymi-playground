@@ -1,0 +1,66 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const dynamicViewportUnitsCode = `/** large viewport height */
+body {
+    height: 100lvh;
+}
+
+/** small viewport height */
+body {
+    height: 100svh;
+}
+
+/** Dynamic viewport height | block size 💪💪 */
+body {
+    height: 100dvh | 100dvb;
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Dynamic Viewport Units</TransitionHeader>
+        <p>Mobile Safari ignores parts of its UI when calculating 100vh.</p>
+        <p>The Dynamic Viewport is the viewport sized with dynamic consideration of any UA interfaces</p>
+        <p>
+            It will automatically adjust itself in response to UA interface elements being shown or not the value will
+            be anything within the limits of 100lvh (maximum) and 100svh (minimum).
+        </p>
+        <CodeBlock code={dynamicViewportUnitsCode} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <figure>
+                <img
+                    src='https://www.bram.us/wordpress/wp-content/uploads/2020/05/lld-minimal-vs-normal-ui@2x.png'
+                    alt='new viewport units'
+                />
+                <figcaption>The problem...</figcaption>
+            </figure>
+        </ExampleBlock>
+        <ExampleBlock>
+            <figure>
+                <img
+                    src='https://www.bram.us/wordpress/wp-content/uploads/2021/07/viewports.png'
+                    alt='new viewport units'
+                />
+                <img
+                    src='https://ishadeed.com/assets/new-viewport-units/dynamic-viewport-css.png'
+                    alt='dynamic viewport units'
+                />
+            </figure>
+            <figcaption>The solution 🥳</figcaption>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    figcaption {
+        margin-block-start: var(--spacing-md);
+    }
+</style>

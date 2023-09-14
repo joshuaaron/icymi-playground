@@ -1,0 +1,206 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+type Props = {
+    name: string;
+};
+
+const cssHasCode = `/** previous sibling */
+.star:has(+ .star:hover) {
+    --star-rating-bg: hsl(45, 100%, 56%);
+}
+
+/** all previous siblings */
+.star:has(~ .star:hover) {
+    --star-rating-bg: hsl(45, 100%, 56%);
+}
+
+/** Parent selector - conditional styling */
+figure:has(figcaption:not(:empty)) {
+    border-radius: var(--radius-lg);
+    background: hsl(0, 3%, 6%)
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>CSS :has()</TransitionHeader>
+        <p>
+            :has is a relational pseudo class that helps you select elements that contain elements that match the
+            selector you pass into the :has() function
+        </p>
+        <p>This can act as a parent selector, and also a previous sibling selector (plus much more)</p>
+        <CodeBlock code={cssHasCode} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <div class='star-rating'>
+                <fieldset>
+                    <legend>How was your service?</legend>
+                    <div class='stars'>
+                        <label class='star'><input type='radio' name='rating' value='1' /> <span>1</span></label>
+                        <label class='star'><input type='radio' name='rating' value='2' /> <span>2</span></label>
+                        <label class='star'><input type='radio' name='rating' value='3' /> <span>3</span></label>
+                        <label class='star'><input type='radio' name='rating' value='4' /> <span>4</span></label>
+                        <label class='star'><input type='radio' name='rating' value='5' /> <span>5</span></label>
+                    </div>
+                </fieldset>
+            </div>
+        </ExampleBlock>
+
+        <ExampleBlock>
+            <div class='figure-grid'>
+                <figure>
+                    <img
+                        src='https://images.pexels.com/photos/15222265/pexels-photo-15222265/free-photo-of-scenic-sea-cliff.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                        alt=''
+                    />
+                </figure>
+                <figure>
+                    <img
+                        src='https://images.pexels.com/photos/15222265/pexels-photo-15222265/free-photo-of-scenic-sea-cliff.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                        alt=''
+                    />
+                    <figcaption>A photo by Skyler Ewing</figcaption>
+                </figure>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    /* Select the range of stars --
+between the first star and the star being hovered
+OR the first star and the star with a checked radio
+*/
+    .star:hover,
+    .star:has(~ .star:hover),
+    .star:has(:checked),
+    .star:has(~ .star :checked) {
+        --star-rating-bg: hsl(45, 100%, 56%);
+    }
+
+    /* Select the range of stars --
+between the star being hovered and a checked star
+*/
+    /* Siblings between a hovered star and a checked star */
+    .star:hover ~ .star:has(~ .star :checked),
+    .star:hover ~ .star:has(:checked) {
+        --star-bg: Canvas;
+        --star-rating-bg: hsl(45, 92%, 81%);
+    }
+
+    /* Increase star size when the child radio is checked */
+    .star:has(:checked) {
+        transform: scale(1.25);
+    }
+
+    .star-rating {
+        --star-rating-bg: white;
+        padding: var(--spacing-md);
+        font-size: 1.75rem;
+        background-color: var(--star-rating-bg);
+        width: fit-content;
+        margin-inline: auto;
+    }
+
+    .star-rating fieldset {
+        border: none;
+        padding: 0;
+    }
+
+    .star-rating legend {
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+
+    .stars {
+        margin-top: var(--spacing-md);
+        display: grid;
+        grid-auto-flow: column;
+    }
+
+    .star {
+        display: grid;
+        place-items: center;
+        grid-template-areas: 'star' 'label';
+        padding: 0 var(--spacing-xs);
+        transition: transform var(--easing) var(--duration-fast);
+        cursor: pointer;
+
+        span {
+            grid-area: label;
+            font-size: 0.65em;
+        }
+    }
+
+    .star :checked + span {
+        font-style: italic;
+        font-weight: bold;
+    }
+
+    .star input,
+    .star::before,
+    .star::after {
+        grid-area: star;
+        width: 1.25em;
+        height: 1.25em;
+    }
+
+    .star [type='radio'] {
+        appearance: none;
+        font: inherit;
+    }
+
+    .star::before,
+    .star::after {
+        content: '';
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    }
+
+    .star::before {
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 1em 1em var(--star-outline, black);
+    }
+
+    .star::after {
+        transition: all ease-in-out 130ms;
+        width: calc(100% - var(--spacing-xs));
+        height: calc(100% - var(--spacing-xs));
+        background-color: var(--star-bg, ButtonFace);
+        box-shadow: inset 1em 1em var(--star-color, var(--star-rating-bg));
+    }
+
+    .figure-grid {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--spacing-xl);
+        display: grid;
+        gap: var(--spacing-xl);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    figure {
+        padding: var(--spacing-md);
+    }
+
+    figcaption {
+        margin-top: var(--spacing-md);
+        font-size: var(--spacing-md);
+        text-align: center;
+    }
+
+    figure:has(figcaption:not(:empty)) {
+        background-color: rgb(228, 228, 228);
+        border-radius: var(--radius-md);
+        img {
+            border-radius: var(--radius-sm);
+        }
+    }
+</style>

@@ -1,0 +1,92 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const demoCss = `.wrapper {
+    width: 550px;
+}
+
+h2 {
+    text-wrap: balance;
+    /** or */
+    text-wrap: pretty;
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Text Wrap Balance</TransitionHeader>
+        <p>
+            When using balance, the browser will automatically calculate the number of words and divide them equally
+            between two lines.
+        </p>
+        <p>When using pretty, the browser will attempt to not leave a single orphaned word on a new line.</p>
+        <CodeBlock code={demoCss} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <div class='wrapper'>
+                <p><span></span>Without text-wrap <span class='definition'>balance</span>:</p>
+                <h2>Here is a title that is just a little too long</h2>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <div class='wrapper'>
+                <p><span></span>With text-wrap <span class='definition'>balance</span>:</p>
+                <h2 class='balance'>Here is a title that is just a little too long</h2>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <div class='wrapper'>
+                <p><span></span>With text-wrap <span class='definition'>pretty</span>:</p>
+                <h2 class='pretty'>Here is a title that is just a little too long</h2>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        background: hsl(25 6% 95%);
+    }
+    p {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    p span:not(.definition) {
+        width: 20px;
+        height: 2px;
+        margin-inline-end: var(--spacing-sm);
+        background: var(--primary);
+    }
+
+    .definition {
+        display: block;
+        font-weight: 500;
+        margin-inline: 3px;
+    }
+
+    .wrapper {
+        overflow: hidden;
+        resize: horizontal;
+        width: 570px;
+        border: 1px dashed #222;
+        padding: var(--spacing-md);
+    }
+
+    .balance {
+        text-wrap: balance;
+        width: fit-content;
+    }
+
+    .pretty {
+        text-wrap: pretty;
+    }
+</style>

@@ -1,0 +1,180 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+import {DiscretePropertyReact} from '@components/DiscreteProperty';
+
+const exitTransitionsCss = `.card {
+  transition: opacity 0.5s, display 0.5s allow-discrete;
+
+  &.fade-out {
+    opacity: 0;
+    display: none;
+  }
+}
+
+/** Or with keyframes */
+.card {
+  animation: fade-out 0.5s forwards;
+}
+
+@keyframes fade-out {
+  100% {
+    opacity: 0;
+    display: none;
+  }
+}
+`;
+
+const startingStyleCss = `/** 0. BEFORE-OPEN STATE */
+@starting-style {
+  .item {
+    opacity: 0;
+  }
+}
+/** 1. IS-OPEN STATE   */
+.item {
+  transition:
+    opacity 0.5s, transform 0.5s, display 0.5s allow-discrete;
+}
+
+/**  2. EXITING STATE   */
+item.is-deleting {
+  opacity: 0;
+  display: none;
+  transform: translateY(-25vw);
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Discrete Property Animations</TransitionHeader>
+        <p>You can now use display and content-visibility in keyframe and transition rules</p>
+        <p>
+            With this, we can now easily animate entry and exit animations, and to and from the top layer for
+            dismissible elements such as dialogs and popovers.
+        </p>
+        <p>
+            Note: If you're using transitions, you must specify the transition behaviour of 'allow-discrete' which can
+            be added as a property or in the shorthand
+        </p>
+        <CodeBlock code={exitTransitionsCss} lang='css' />
+        <h3>Entry animations with @starting-style</h3>
+        <p>To create entry animations you need to use the @starting-style rule.</p>
+        <p>
+            apply a style that the browser can look up before the element is open on the page. This is the “before-open”
+            state (where you are animating in from)
+        </p>
+        <CodeBlock code={startingStyleCss} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <ul class='exit-anims-container'>
+                <li>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+                <li>
+                    <h2>Card title</h2>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reprehenderit maxime ut culpa?</p>
+                    <button class='delete-btn'>
+                        <span aria-hidden='true'>Delete ❌</span>
+                    </button>
+                </li>
+            </ul>
+        </ExampleBlock>
+        <ExampleBlock>
+            <DiscretePropertyReact client:load />
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    .exit-anims-container {
+        display: grid;
+        grid-template-columns: repeat(4, 145px);
+        gap: 1rem;
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 450;
+        }
+
+        p {
+            font-size: 0.75rem;
+        }
+        button {
+            background: white;
+            border: none;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        li {
+            padding: 1rem 0.5rem;
+            border-radius: var(--radius-md);
+
+            &:nth-child(1) {
+                background: hsl(140 50% 75%);
+            }
+            &:nth-child(2) {
+                background: hsl(240 50% 75%);
+            }
+            &:nth-child(3) {
+                background: hsl(320 50% 75%);
+            }
+            &:nth-child(4) {
+                background: hsl(350 50% 75%);
+            }
+
+            &.fade-out {
+                animation: fade-out 0.25s forwards;
+            }
+        }
+    }
+
+    /* Keyframe animations */
+    @keyframes fade-out {
+        100% {
+            opacity: 0;
+            display: none;
+        }
+    }
+
+    h3 {
+        font-size: 2rem;
+        font-weight: 500;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.delete-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+            btn?.parentElement?.classList.add('fade-out');
+        });
+    });
+</script>

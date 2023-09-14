@@ -1,0 +1,128 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const popoverMarkup = `<button popovertarget='popover'>Open Popover</button>
+<div id='popover' popover>
+    <p>I am a popover with more information.</p>
+</div>
+`;
+const demoCss = `/** Nothing needed by default! */
+/** But you can do style and animate the popover and backdrop */
+[popover] {
+    position: absolute;
+    top: 4vh;
+
+    &:popover-open {
+        animation: pop 0.25s var(--ease);
+    }
+
+    &::backdrop {
+        background: rgb(120 120 120 / 20%);
+    }
+}
+`;
+
+const manualDismissPopover = `<button popovertarget="manual-popover">Open Popover</button>
+<div id="manual-popover" popover=manual>
+    <button
+        class="close-btn"
+        popovertarget="manual-popover"
+        popovertargetaction="hide"
+    >
+        <span aria-hidden=”true”>❌</span>
+        <span class="sr-only">Close</span>
+    </button>
+    <p>I am a popover with more information.<p>
+</div>
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Native Popovers</TransitionHeader>
+        <p>
+            Creating a default popover with light-dismiss (clicking backdrop, keyboard esc) is simple and only requires
+            minimal HTML markup
+        </p>
+        <CodeBlock code={popoverMarkup} lang='html' />
+        <CodeBlock code={demoCss} lang='css' />
+        <p>You can also create a "manual" popover which requires explicit action to close with a few small changes</p>
+        <CodeBlock code={manualDismissPopover} lang='html' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <button popovertarget='the-popover'>Auto Popover</button>
+            <div id='the-popover' popover>
+                <p>I am a popover with more information.</p>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <button popovertarget='manual-popover'>Manual Popover</button>
+            <div id='manual-popover' popover='manual'>
+                <button class='close-btn' popovertarget='manual-popover' popovertargetaction='hide'>
+                    <span aria-hidden='true'>❌</span>
+                </button>
+                <p>I am a popover with more information.</p>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    button {
+        display: inline-flex;
+        width: fit-content;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        border: none;
+        padding: 12px 20px;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+    }
+
+    [popover] {
+        position: absolute;
+        top: var(--spacing-md);
+        margin: 0 auto;
+        padding: var(--spacing-xl) var(--spacing-md) var(--spacing-md);
+        max-width: 300px;
+        background: #222;
+        color: white;
+    }
+
+    [popover]::backdrop {
+        animation: fade-in 0.25s;
+        background: hsl(0 0% 0% / 0.25);
+        backdrop-filter: blur(4px);
+    }
+
+    [popover]:popover-open {
+        animation: pop 0.25s ease-out;
+    }
+
+    .close-btn {
+        border: none;
+        background: none;
+        position: absolute;
+        right: var(--spacing-xs);
+        top: var(--spacing-sm);
+        filter: grayscale() brightness(10);
+    }
+
+    @keyframes pop {
+        0% {
+            translate: 0 100%;
+        }
+    }
+
+    @keyframes fade-in {
+        0% {
+            opacity: 0;
+        }
+    }
+</style>

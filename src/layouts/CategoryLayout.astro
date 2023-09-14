@@ -1,0 +1,15 @@
+---
+import Navigation from '@components/Navigation.astro';
+import '../../src/styles/global.css';
+import Layout from '@layouts/Layout.astro';
+
+type Props = {
+    title: string;
+};
+
+const {title = 'ICYMI UI Demo'} = Astro.props;
+---
+
+<Layout {title}>
+    <slot />
+</Layout>

@@ -33,3 +33,13 @@ const {text, href, style, icon, isFilled, borderVisible, classes} = Astro.props 
     <span>{text}</span>
     {icon && icon.side === 'right' && <Icon name={icon.name} width='24' height='24' />}
 </a>
+
+<style>
+    a {
+        background: black;
+        color: white;
+        padding: 1rem 2rem;
+        display: inline-block;
+        border-radius: var(--radius-sm);
+    }
+</style>

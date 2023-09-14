@@ -1,0 +1,120 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const createCascade = `/** Using the @layer statement at-rule, without any styles: */
+@layer reset;
+
+/** Using @import with the layer() function: */
+@import url(reset.css) layer(reset);
+
+/** Using the @layer block at-rule, with styles assigned: */
+@layer reset {
+    * { margin: 0; }
+  }
+}
+`;
+
+const orderingLayers = `@layer reset { /* Create 1st layer named “reset” */
+  …
+}
+
+@layer base { /* Create 2nd layer named “base” */
+  …
+}
+
+@layer theme { /* Create 3rd layer named “theme” */
+  …
+}
+`;
+
+const preferredSyntax = `@layer reset, base, theme;
+
+/** Append styles to each layer */
+@layer reset {
+    …
+}
+`;
+
+const rulesOfCascadeLayers = `@import url(reset.css) layer(reset); /* 1st layer */
+
+@layer base { /* 2nd layer */
+  form.sign-up input {  /** <- more specific selector */
+    font-size: inherit;
+  }
+}
+
+@layer theme { /* 3rd layer */
+  input {   /** ordered after layer 2 so will win */
+    font-size: 2rem;
+  }
+}
+`;
+
+const unlayeredStyles = `@import url(reset.css) layer(reset); /* 1st layer */
+
+/* Some Unlayered Styles */
+h1 { color: red; }
+
+@layer base { /* 2nd layer */
+  h1 { color: green; }
+}
+
+@layer theme { /* 3rd layer */
+  body h1 { color: rebeccapurple; }
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Cascade Layers</TransitionHeader>
+        <p>Cascade layers give CSS authors more direct control over the natural cascade of CSS</p>
+        <p>
+            Using the @layer at-rule and layered @imports, we can establish our own layers of the cascade — building
+            from low-priority styles like resets and defaults, through themes and design systems, up to highest-priority
+            styles, like components, utilities, and overrides
+        </p>
+        <CodeBlock code={createCascade} lang='css' filename='Create a cascade layer' />
+        <hr />
+        <p>Cascade Layers are sorted by the order in which they are declared:</p>
+        <CodeBlock code={orderingLayers} lang='css' filename='Ordering layers' />
+        <hr />
+        <p>It's recommended to declare layers up front and then append styles to them:</p>
+        <CodeBlock code={preferredSyntax} lang='css' filename='Ordering layers' />
+        <hr />
+        <p>
+            Cascade layers (like declarations) are ordered by order of appearance. When comparing declarations that
+            belong to different layers, then for normal rules the declaration whose cascade layer is last wins
+        </p>
+        <CodeBlock code={rulesOfCascadeLayers} lang='css' filename='Cascade and order evaluation' />
+        <hr />
+        <p>
+            Styles that are not defined in a Cascade Layer will be collected in an implicit layer. This implicit layer
+            will be positioned last in the Layer Order.
+        </p>
+        <p>Because of this position, Unlayered Styles will always override styles declared in Layers.</p>
+        <CodeBlock code={unlayeredStyles} lang='css' filename='Unlayered styles' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <figure>
+                <img
+                    src='https://www.bram.us/wordpress/wp-content/uploads/2021/09/css-cascade-cascade-layers-bramus-1120x630.png'
+                    alt='CSS Cascade'
+                />
+            </figure>
+        </ExampleBlock>
+        <ExampleBlock>
+            <figure>
+                <img
+                    src='https://www.bram.us/wordpress/wp-content/uploads/2021/09/css-cascade-layers-determine-winner-bramus-1120x630.png'
+                    alt='How the cascade evaluates layers'
+                />
+            </figure>
+        </ExampleBlock>
+    </div>
+</GridLayout>

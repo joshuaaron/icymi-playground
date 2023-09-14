@@ -1,0 +1,21 @@
+---
+import {getCollection} from 'astro:content';
+import {InferGetStaticParamsType, GetStaticPathsOptions, InferGetStaticPropsType} from 'astro';
+import CategoryLayout from '@layouts/CategoryLayout.astro';
+
+export async function getStaticPaths() {
+    const featureEntries = await getCollection('features');
+    return featureEntries.map((entry) => ({
+        params: {slug: entry.slug, collection: entry.collection},
+        props: {entry},
+    }));
+}
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+const {entry} = Astro.props;
+const {Content} = await entry.render();
+---
+
+<CategoryLayout title={entry.slug}>
+    <Content />
+</CategoryLayout>

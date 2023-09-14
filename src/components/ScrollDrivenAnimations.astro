@@ -1,0 +1,572 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const scrollTimeline = `.progess-bar {
+  animation: grow linear;
+  animation-timeline: scroll();
+    /** scroll:
+     * nearest | root | self
+     * block | inline | x | y */
+}
+
+@keyframes grow {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+/** Or you can name a container */
+.container {
+  scroll-timeline: --container block;
+}
+
+.progress-bar {
+  animation: grow linear;
+  animation-timeline: --container;
+}
+`;
+
+const viewTimeline = `img {
+  animation: reveal linear;
+  animation-timeline: view();
+  animation-range: entry 25% cover 50%;
+  /** animation range:
+   * <start> <value> <end> <value>
+   * entry | exit | cover | contain | entry/exit-crossing */
+}
+@keyframes reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Scroll Driven Animations</TransitionHeader>
+        <p>There are two new timelines to use:</p>
+        <ul>
+            <li>
+                <span>Scroll Progress Timeline:</span> a timeline that is linked to the scroll position of a scroll container
+                along a particular axis.
+            </li>
+            <li>
+                <span>View Progress Timeline:</span> a timeline that is linked to the relative position of a particular element
+                within its scroll container.
+            </li>
+        </ul>
+        <p>Scroll timelines work by adding a scroll function which accepts a scroller and axis argument</p>
+        <CodeBlock code={scrollTimeline} lang='css' filename='scroll-timelines' />
+        <hr />
+        <p>View timeslines are created equally with a view() function and animation ranges</p>
+        <CodeBlock code={viewTimeline} lang='css' filename='view-timelines' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <h3>Scroll Timeline example one:</h3>
+            <div class='scroll-container'>
+                <div class='progress'></div>
+                <div class='content'>
+                    <h4>Title</h4>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum exercitationem a modi sunt
+                        eligendi atque, voluptatem dolorum. Tempora ipsam nobis explicabo sunt similique eaque.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur at sint ipsum ea. Earum
+                        sapiente ut dolorem voluptate perspiciatis porro necessitatibus suscipit similique odit ullam
+                        maxime quibusdam aut iure velit perferendis, nesciunt iusto ipsam. Dignissimos ut dolorem illum
+                        veniam fuga exercitationem tenetur?
+                    </p><p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum exercitationem a modi sunt
+                        eligendi atque, voluptatem dolorum. Tempora ipsam nobis explicabo sunt similique eaque.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur at sint ipsum ea. Earum
+                        sapiente ut dolorem voluptate perspiciatis porro necessitatibus suscipit similique odit ullam
+                        maxime quibusdam aut iure velit perferendis, nesciunt iusto ipsam. Dignissimos ut dolorem illum
+                        veniam fuga exercitationem tenetur?
+                    </p><p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum exercitationem a modi sunt
+                        eligendi atque, voluptatem dolorum. Tempora ipsam nobis explicabo sunt similique eaque.
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur at sint ipsum ea. Earum
+                        sapiente ut dolorem voluptate perspiciatis porro necessitatibus suscipit similique odit ullam
+                        maxime quibusdam aut iure velit perferendis, nesciunt iusto ipsam. Dignissimos ut dolorem illum
+                        veniam fuga exercitationem tenetur?
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero ut aperiam, excepturi doloremque
+                        veniam doloribus hic quod enim blanditiis cumque aliquam illum in commodi fuga inventore error
+                        itaque ex reprehenderit incidunt voluptatum?
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Alias eos sit ducimus, aliquam
+                        consequatur beatae, dolorem similique illum ipsum unde minima. Consequuntur, commodi.
+                    </p>
+                </div>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <h3>Scroll Timeline example two:</h3>
+            <div class='wrapper'>
+                <div class='demo-two-container'>
+                    <div class='row'>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17230282/pexels-photo-17230282/free-photo-of-city-man-love-people.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/15193545/pexels-photo-15193545/free-photo-of-ballons-in-cappadocia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17168980/pexels-photo-17168980/free-photo-of-wood-road-nature-leaf.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/16676502/pexels-photo-16676502/free-photo-of-wood-fashion-people-woman.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/14577256/pexels-photo-14577256.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                    </div>
+                    <div class='row'>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17237963/pexels-photo-17237963.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17054024/pexels-photo-17054024/free-photo-of-landscape-hill-mountain-agriculture.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17152846/pexels-photo-17152846/free-photo-of-iceland-road-landscape-beach.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/14696584/pexels-photo-14696584.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/17151882/pexels-photo-17151882/free-photo-of-cloud-over-water.png?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                    </div>
+                    <div class='row'>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/16931198/pexels-photo-16931198/free-photo-of-chateau-d-eltz-en-allemagne-au-millieux-de-la-foret.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/15762173/pexels-photo-15762173/free-photo-of-fashion-love-woman-relaxation.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/16732091/pexels-photo-16732091/free-photo-of-city-building-house-architecture.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/15031202/pexels-photo-15031202/free-photo-of-canoe-on-lake-in-mountains.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                        <figure>
+                            <div class='img-wrapper'>
+                                <img
+                                    src='https://images.pexels.com/photos/9964659/pexels-photo-9964659.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt=''
+                                />
+                            </div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock height='400px'>
+            <h3>View Timeline example one:</h3>
+            <div class='image-container'>
+                <img
+                    class='revealing-image'
+                    src='https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=500'
+                    alt=''
+                />
+            </div>
+        </ExampleBlock>
+        <ExampleBlock height='400px'>
+            <h3>View Timeline example two:</h3>
+            <div class='cards-wrapper'>
+                <ul id='cards'>
+                    <li class='card' id='card_1'>
+                        <div class='card__content'>
+                            <div>
+                                <h2>Card One</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <p><a href='#top' class='btn btn--accent'>Read more</a></p>
+                            </div>
+                            <figure>
+                                <img
+                                    src='https://images.pexels.com/photos/17230282/pexels-photo-17230282/free-photo-of-city-man-love-people.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt='Image description'
+                                />
+                            </figure>
+                        </div>
+                    </li>
+                    <li class='card' id='card_2'>
+                        <div class='card__content'>
+                            <div>
+                                <h2>Card Two</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <p><a href='#top' class='btn btn--accent'>Read more</a></p>
+                            </div>
+                            <figure>
+                                <img
+                                    src='https://images.pexels.com/photos/15193545/pexels-photo-15193545/free-photo-of-ballons-in-cappadocia.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt='Image description'
+                                />
+                            </figure>
+                        </div>
+                    </li>
+                    <li class='card' id='card_3'>
+                        <div class='card__content'>
+                            <div>
+                                <h2>Card Three</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <p><a href='#top' class='btn btn--accent'>Read more</a></p>
+                            </div>
+                            <figure>
+                                <img
+                                    src='https://images.pexels.com/photos/17168980/pexels-photo-17168980/free-photo-of-wood-road-nature-leaf.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt='Image description'
+                                />
+                            </figure>
+                        </div>
+                    </li>
+                    <li class='card' id='card_4'>
+                        <div class='card__content'>
+                            <div>
+                                <h2>Card Four</h2>
+                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                                <p><a href='#top' class='btn btn--accent'>Read more</a></p>
+                            </div>
+                            <figure>
+                                <img
+                                    src='https://images.pexels.com/photos/16676502/pexels-photo-16676502/free-photo-of-wood-fashion-people-woman.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+                                    alt='Image description'
+                                />
+                            </figure>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    li {
+        margin-bottom: 0.75rem;
+
+        span {
+            font-weight: 550;
+        }
+    }
+
+    .scroll-container {
+        height: 300px;
+        background: lightgrey;
+        overflow-y: auto;
+        /* scroll-timeline: --scroller block; */
+
+        .content {
+            padding: 1rem;
+        }
+    }
+    .progress {
+        position: sticky;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 1em;
+        background: red;
+
+        transform-origin: 0 50%;
+        animation-name: grow;
+        animation-timing-function: linear;
+        animation-timeline: scroll();
+    }
+
+    @keyframes grow {
+        from {
+            scale: 0 1;
+        }
+        to {
+            scale: 1 1;
+        }
+    }
+
+    /* Demo Two Scroller */
+    .wrapper {
+        container-name: scroll-container;
+        scroll-timeline: --scroller block;
+        overflow-y: auto;
+        height: 400px;
+    }
+
+    .demo-two-container {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(10px, 1fr));
+        gap: var(--spacing-xl);
+        width: min(100%, 72rem);
+        margin-inline: auto;
+
+        figure {
+            margin-block: var(--spacing-md);
+        }
+    }
+
+    .row {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .img-wrapper img {
+        border-radius: var(--radius-lg);
+        width: 100%;
+        height: auto;
+        aspect-ratio: 0.75;
+        object-fit: cover;
+    }
+
+    .demo-two-container {
+        overflow-y: hidden;
+    }
+
+    .row:nth-child(odd) {
+        flex-direction: column-reverse;
+        animation-fill-mode: forwards;
+        animation-timing-function: linear;
+        animation-name: scroller;
+        animation-timeline: --scroller;
+    }
+
+    @keyframes scroller {
+        from {
+            transform: translateY(calc(-100% + 50vh));
+        }
+        to {
+            transform: translateY(calc(100% - 50vh));
+        }
+    }
+
+    /** View Timelines */
+    .image-container {
+        height: 1200px;
+        display: grid;
+        place-items: center;
+    }
+
+    .revealing-image {
+        width: 400px;
+        aspect-ratio: 16 / 9;
+        object-fit: cover;
+        animation-timeline: view();
+        animation-name: reveal;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-range: entry 25% contain 100%;
+    }
+
+    @keyframes reveal {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    /** Demo two */
+
+    @supports (animation-timeline: view()) {
+        .card {
+            --index0: calc(var(--index) - 1); /* 0-based index */
+            --reverse-index: calc(var(--numcards) - var(--index0)); /* reverse index */
+            --reverse-index0: calc(var(--reverse-index) - 1); /* 0-based reverse index */
+        }
+
+        @keyframes scale {
+            to {
+                transform: scale(calc(1.1 - calc(0.1 * var(--reverse-index))));
+            }
+        }
+
+        #cards {
+            --card-height: 40vw;
+            --card-margin: 4vw;
+            --card-top-offset: 1em;
+            --outline-width: 1px;
+            --numcards: 4;
+            view-timeline-name: --cards-element-scroll;
+        }
+
+        .card__content {
+            --start-range: calc(var(--index0) / var(--numcards) * 100%);
+            --end-range: calc((var(--index)) / var(--numcards) * 100%);
+
+            animation: linear scale forwards;
+            animation-timeline: --cards-element-scroll;
+            animation-range: exit-crossing var(--start-range) exit-crossing var(--end-range);
+        }
+    }
+
+    .cards-wrapper {
+        background: hsl(25 5% 85%);
+    }
+
+    #cards {
+        /* Make place at bottom, as items will slide to that position*/
+        padding-bottom: calc(var(--numcards) * var(--card-top-offset));
+        /* Don't include the --card-margin in padding, as that will affect the scroll-timeline*/
+        margin-bottom: var(--card-margin);
+    }
+
+    #card_1 {
+        --index: 1;
+    }
+
+    #card_2 {
+        --index: 2;
+    }
+
+    #card_3 {
+        --index: 3;
+    }
+
+    #card_4 {
+        --index: 4;
+    }
+
+    #cards {
+        list-style: none;
+        outline: calc(var(--outline-width) * 10) solid hotpink;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(var(--numcards), var(--card-height));
+        gap: var(--card-margin);
+    }
+
+    .card {
+        position: sticky;
+        top: 0;
+        padding-top: calc(var(--index) * var(--card-top-offset));
+        outline: var(--outline-width) solid lime;
+    }
+
+    .card__content {
+        box-shadow: 0 0.2em 1em rgba(0, 0, 0, 0.1), 0 1em 2em rgba(0, 0, 0, 0.1);
+        background: rgb(255, 255, 255);
+        color: rgb(10, 5, 7);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+
+        display: grid;
+        grid-template-areas: 'text img';
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+
+        align-items: stretch;
+        outline: var(--outline-width) solid blue;
+        transform-origin: 50% 0%;
+        will-change: transform;
+    }
+
+    .card__content > div {
+        grid-area: text;
+        width: 80%;
+        place-self: center;
+        text-align: left;
+
+        display: grid;
+        gap: 1em;
+        place-items: start;
+    }
+
+    .card__content > figure {
+        grid-area: img;
+        overflow: hidden;
+    }
+
+    .card__content img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>

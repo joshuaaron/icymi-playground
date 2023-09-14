@@ -1,0 +1,39 @@
+---
+import {ROUTES, type RouteKeys, HOME_ROUTE} from '../utils/routes';
+
+const {url} = Astro;
+const pathname = url.pathname.split('/').at(-1);
+
+const urlObject = ROUTES[pathname as RouteKeys];
+const prevLink = urlObject?.prev ? `/features/${urlObject.prev}` : `/`;
+const nextLink = urlObject?.next ? `/features/${urlObject.next}` : `/features/${HOME_ROUTE.next}`;
+---
+
+<nav>
+    <a href={prevLink}>PREV</a>
+    <a href={nextLink}>NEXT</a>
+</nav>
+
+<style>
+    nav {
+        font-size: 12px;
+        display: flex;
+        gap: 0.5rem;
+        position: fixed;
+        bottom: 2rem;
+        justify-self: end;
+    }
+    a {
+        padding: 1rem;
+        background: color-mix(in hsl, var(--primary), white var(--shade, 10%));
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        color: black;
+        border-radius: var(--radius-sm);
+    }
+
+    a:hover {
+        --shade: 0%;
+    }
+</style>

@@ -4,16 +4,39 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title='Welcome to Astro.' description=''>
-    <main transition:name='main'>Welcome</main>
-    <Link href='#' style='primary' text='/' />
+    <main transition:name='main'>
+        <h1>ICYMI UI</h1>
+        <p>A round up of new CSS and JS features 🥳🥳</p>
+        <a href='/features/has'>Let's get started</a>
+    </main>
 </Layout>
 
 <style>
     main {
         margin: auto;
-        padding: 1rem;
+        padding: 2rem;
         width: min(calc(100% - 2rem), 800px);
         font-size: 20px;
         line-height: 1.6;
+        text-align: center;
+    }
+    a {
+        padding: 1rem;
+        background: color-mix(in hsl, var(--primary), white var(--shade, 10%));
+        display: grid;
+        place-items: center;
+        text-decoration: none;
+        color: black;
+        border-radius: var(--radius-sm);
+        width: fit-content;
+        margin-inline: auto;
+
+        &:hover {
+            --shade: 0%;
+        }
+    }
+    p {
+        font-size: 1.25rem;
+        margin-bottom: 3rem;
     }
 </style>

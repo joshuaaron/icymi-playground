@@ -4,6 +4,10 @@
         "paths": {
             "@components/*": ["src/components/*"],
             "@layouts/*": ["src/layouts/*"]
-        }
+        },
+        "esModuleInterop": true,
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        "strict": true
     }
 }

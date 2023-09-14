@@ -1,0 +1,43 @@
+---
+import Navigation from '@components/Navigation.astro';
+---
+
+<main class='layout-grid'>
+    <section>
+        <div class='container'>
+            <slot name='info' />
+            <Navigation />
+        </div>
+    </section>
+    <section>
+        <div class='container'>
+            <slot name='example' />
+        </div>
+    </section>
+</main>
+
+<style>
+    .layout-grid {
+        display: grid;
+        inline-size: 100dvi;
+        block-size: 100dvb;
+        grid: 1fr auto / repeat(2, 1fr);
+    }
+    .container {
+        width: min(100% - 4rem, 40dvi);
+        margin-inline: auto;
+        padding-block: 4.5rem;
+        display: grid;
+    }
+
+    section {
+        overflow-y: auto;
+    }
+    section:first-of-type {
+        background: var(--dark-bg);
+        color: white;
+    }
+    section:last-of-type {
+        background: var(--light-bg);
+    }
+</style>

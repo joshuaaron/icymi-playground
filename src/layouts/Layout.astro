@@ -4,7 +4,7 @@ import '../../src/styles/global.css';
 
 type Props = {
     title: string;
-    description: string;
+    description?: string;
 };
 
 const {title = 'ICYMI UI Demo', description = 'A demo of some new CSS/JS features'} = Astro.props;
@@ -12,7 +12,7 @@ const {title = 'ICYMI UI Demo', description = 'A demo of some new CSS/JS feature
 
 <!DOCTYPE html>
 <html lang='en'>
-    <MainHead {title} {description} />
+    <MainHead {title} />
     <body>
         <slot />
     </body>

@@ -1,0 +1,25 @@
+---
+type Props = {
+    width?: string;
+    height?: string;
+};
+
+const {width = 'auto', height = 'auto'} = Astro.props;
+---
+
+<div class='example-block' style={{width, height}}>
+    <slot />
+</div>
+
+<style>
+    .example-block {
+        padding: 2rem;
+        background: white;
+        display: grid;
+        /* justify-content: center; */
+        margin-block: 2rem;
+        align-items: start;
+        border-radius: var(--radius-md);
+        overflow-y: auto;
+    }
+</style>

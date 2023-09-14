@@ -1,0 +1,328 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const anchorCss = `button {
+    anchor-name: --button;
+}
+
+[popover] {
+    anchor-default: --button;
+    inset: unset;
+    bottom: calc(anchor(top) + 1rem);
+    right: anchor(center);
+    translate: 50% 0;
+}
+
+/** You can also pass the anchor name to the anchor function */
+[popover] {
+    bottom: calc(anchor(--button top) + 1rem);
+    right: anchor(--button center);
+}
+`;
+
+const positionFallback = `[popover] {
+    anchor-default: --button;
+    position-fallback: --top-to-bottom;
+}
+
+@position-fallback --top-to-bottom {
+  @try {
+    bottom: anchor(top);
+    left: anchor(center);
+  }
+
+  @try {
+    top: anchor(bottom);
+    left: anchor(center);
+  }
+}
+`;
+
+const barChartCss = `
+.tooltip-max {
+    bottom: max(anchor(--anchor-1 top), anchor(--anchor-2 top), anchor(--anchor-3 top));
+    left: anchor(--chart right);
+    translate: 0 50%;
+}
+
+.tooltip--min {
+    position: absolute;
+    right: calc(anchor(--chart left) + 1rem);
+    anchor-default: --anchor-1;
+    bottom: min(anchor(--anchor-1 top), anchor(--anchor-2 top), anchor(--anchor-3 top));
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>CSS Anchors</TransitionHeader>
+        <p>
+            To create an anchor, set an anchor-name to the element you wish to anchor too, and then reference that on
+            the element you're placing.
+        </p>
+        <p>You can then position in by using the anchor function and passing in a position (inset) value</p>
+        <CodeBlock code={anchorCss} lang='css' />
+        <hr />
+        <p>
+            What's even cooler is that you can specify a position-fallback ruleset that can position your anchored
+            element based on a set of fallbacks you provide
+        </p>
+        <p>
+            The common use case here is a tooltip/popover that should flip between getting shown above or below an
+            anchor.
+        </p>
+        <p>
+            This behavior is based on whether the popover would get clipped by its container. That container is usually
+            the viewport.
+        </p>
+        <CodeBlock code={positionFallback} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <button class='demo-btn-one' popovertarget='popover-basic'>Anchored Popover</button>
+            <div popover id='popover-basic'>
+                <p>I am a popover with more information.</p>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <header>
+                <h2>Here's a title</h2>
+                <button class='demo-btn-two' popovertarget='popover-fallback'>Anchored Popover</button>
+            </header>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus numquam facere aspernatur dolorum
+                rerum hic unde eligendi nostrum dolore ea.
+            </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cum enim laboriosam! Molestiae.</p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil error, velit delectus dolor nemo repellat
+                vitae quasi provident nesciunt explicabo itaque architecto nostrum. Repellendus eligendi sed assumenda
+                quis quae porro cumque saepe iure repudiandae? Dignissimos neque similique sapiente recusandae commodi
+                repudiandae vitae magnam sunt mollitia dicta, temporibus quo a! Illum esse culpa, consequatur molestiae
+                consequuntur ipsum?
+            </p><p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus numquam facere aspernatur dolorum
+                rerum hic unde eligendi nostrum dolore ea.
+            </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cum enim laboriosam! Molestiae.</p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil error, velit delectus dolor nemo repellat
+                vitae quasi provident nesciunt explicabo itaque architecto nostrum. Repellendus eligendi sed assumenda
+                quis quae porro cumque saepe iure repudiandae? Dignissimos neque similique sapiente recusandae commodi
+                repudiandae vitae magnam sunt mollitia dicta, temporibus quo a! Illum esse culpa, consequatur molestiae
+                consequuntur ipsum?
+            </p><p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus numquam facere aspernatur dolorum
+                rerum hic unde eligendi nostrum dolore ea.
+            </p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex cum enim laboriosam! Molestiae.</p>
+            <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil error, velit delectus dolor nemo repellat
+                vitae quasi provident nesciunt explicabo itaque architecto nostrum. Repellendus eligendi sed assumenda
+                quis quae porro cumque saepe iure repudiandae? Dignissimos neque similique sapiente recusandae commodi
+                repudiandae vitae magnam sunt mollitia dicta, temporibus quo a! Illum esse culpa, consequatur molestiae
+                consequuntur ipsum?
+            </p>
+            <div popover id='popover-fallback'>
+                <p>I am a popover with more information.</p>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <div class='chart'>
+                <div class='chart__bar' id='bar-1'></div>
+                <div class='chart__bar' id='bar-2'></div>
+                <div class='chart__bar' id='bar-3'></div>
+            </div>
+            <div popover='manual' id='popover-max' class='chart__tooltip chart__tooltip--max'>👈 Max!</div>
+            <div popover='manual' id='popover-min' class='chart__tooltip chart__tooltip--min'>Min! 👉</div>
+
+            <div class='actions'>
+                <input data-bar-id='bar-1' type='range' min='0' max='100' value='90' />
+                <input data-bar-id='bar-2' type='range' min='0' max='100' value='25' />
+                <input data-bar-id='bar-3' type='range' min='0' max='100' value='75' />
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    @layer base {
+        :root {
+            --anchor-size: 50px;
+            --anchored-size: 250px;
+            --blue-4: #4dabf7;
+            --green-4: #69db7c;
+            --red-4: #ff8787;
+            --indigo-4: #748ffc;
+            --gray-9: #222;
+            --width: 70%;
+        }
+
+        button {
+            display: inline-flex;
+            width: fit-content;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+        }
+
+        header {
+            padding-block: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        h2 {
+            font-size: 2.25rem;
+        }
+
+        [popover] {
+            inset: unset;
+        }
+    }
+
+    .demo-btn-one {
+        anchor-name: --button-one;
+    }
+
+    .demo-btn-two {
+        anchor-name: --button-two;
+    }
+
+    [popover]:not(.chart__tooltip) {
+        background: #222;
+        color: white;
+        font-weight: 400;
+        padding: 1rem;
+        max-width: 300px;
+        bottom: calc(anchor(top) + 0.5rem);
+        right: anchor(center);
+        translate: 50% 0;
+    }
+
+    [popover]:not(.chart__tooltip)::backdrop {
+        animation: fade-in 0.25s;
+        background: hsl(0 0% 0% / 0.25);
+        backdrop-filter: blur(1px);
+    }
+
+    [popover]:not(.chart-tooltip):popover-open {
+        animation: fade-in 0.25s ease-out;
+    }
+
+    #popover-basic {
+        anchor-default: --button-one;
+    }
+
+    #popover-fallback {
+        anchor-default: --button-two;
+        position-fallback: --flip;
+    }
+
+    @position-fallback --flip {
+        @try {
+            bottom: calc(anchor(top) + 0.5rem);
+        }
+        @try {
+            top: calc(anchor(bottom) + 0.5rem);
+        }
+    }
+
+    /** Chart demo styles */
+    .chart__tooltip--max {
+        anchor-default: --anchor-1;
+        position: absolute;
+        left: anchor(--chart right);
+        bottom: max(anchor(--anchor-1 top), anchor(--anchor-2 top), anchor(--anchor-3 top));
+        translate: 0 50%;
+    }
+
+    .chart__tooltip--min {
+        anchor-default: --anchor-1;
+        position: absolute;
+        right: calc(anchor(--chart left) + var(--spacing-md));
+        bottom: min(anchor(--anchor-1 top), anchor(--anchor-2 top), anchor(--anchor-3 top));
+        translate: 0 50%;
+    }
+
+    .actions {
+        width: var(--width);
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+
+    input {
+        min-width: 0;
+    }
+
+    .chart {
+        anchor-name: --chart;
+
+        width: var(--width);
+        aspect-ratio: 4 / 3;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-md);
+        padding: var(--spacing-md);
+        align-items: end;
+        border-left: var solid var(--gray-9);
+        border-bottom: var solid var(--gray-9);
+    }
+
+    .chart__bar {
+        background: var(--bg, var(--indigo-4));
+        height: calc(var(--height, 100) * 1%);
+
+        &:nth-of-type(1) {
+            anchor-name: --anchor-1;
+            --bg: var(--blue-4);
+            height: 90%;
+        }
+
+        &:nth-of-type(2) {
+            anchor-name: --anchor-2;
+            --bg: var(--green-4);
+            height: 25%;
+        }
+
+        &:nth-of-type(3) {
+            anchor-name: --anchor-3;
+            --bg: var(--red-4);
+            height: 75%;
+        }
+    }
+
+    .chart__tooltip {
+        padding: 0.75rem;
+        background: #222;
+        color: white;
+        border-radius: var(--radius-sm);
+    }
+</style>
+
+<script>
+    const INPUTS = document.querySelectorAll('input');
+    const POPS = document.querySelectorAll('.chart__tooltip');
+    POPS.forEach((p) => {
+        p.showPopover();
+    });
+
+    const update = (e) => {
+        document.querySelector(`#${e.target.getAttribute('data-bar-id')}`).style.height = `${e.target.value}%`;
+    };
+
+    INPUTS.forEach((input) => {
+        input.addEventListener('input', update);
+    });
+</script>

@@ -1,0 +1,80 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const demoCss = ``;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Trigonometry in CSS</TransitionHeader>
+        <CodeBlock code={demoCss} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <section>
+                <div class='text-ring astro-Y72TWQOM'>
+                    <span style='--index: 0;'>S</span><span style='--index: 1;'>p</span><span style='--index: 2;'
+                        >i</span
+                    ><span style='--index: 3;'>n</span><span style='--index: 4;'>n</span><span style='--index: 5;'
+                        >i</span
+                    ><span style='--index: 6;'>n</span><span style='--index: 7;'>g</span><span style='--index: 8;'>
+                    </span><span style='--index: 9;'>t</span><span style='--index: 10;'>e</span><span
+                        style='--index: 11;'>x</span
+                    ><span style='--index: 12;'>t</span><span style='--index: 13;'> </span><span style='--index: 14;'
+                        >w</span
+                    ><span style='--index: 15;'>i</span><span style='--index: 16;'>t</span><span style='--index: 17;'
+                        >h</span
+                    ><span style='--index: 18;'> </span><span style='--index: 19;'>C</span><span style='--index: 20;'
+                        >S</span
+                    ><span style='--index: 21;'>S</span><span style='--index: 22;'> </span><span style='--index: 23;'
+                        >T</span
+                    ><span style='--index: 24;'>r</span><span style='--index: 25;'>i</span><span style='--index: 26;'
+                        >g</span
+                    ><span style='--index: 27;'>o</span><span style='--index: 28;'>n</span><span style='--index: 29;'
+                        >o</span
+                    ><span style='--index: 30;'>m</span><span style='--index: 31;'>e</span><span style='--index: 32;'
+                        >t</span
+                    ><span style='--index: 33;'>r</span><span style='--index: 34;'>y</span><span style='--index: 35;'>
+                    </span><span style='--index: 36;'>•</span><span style='--index: 37;'> </span>
+                </div>
+            </section>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    .text-ring {
+        --_w: 300px;
+        --_sz: 1ch;
+        --_r: calc((var(--_w) - var(--_sz)) / 2);
+        --char-total: 38;
+        animation: spin 6s infinite linear;
+        transform-origin: center;
+        position: relative;
+        inline-size: var(--width);
+        aspect-ratio: 1;
+    }
+
+    .text-ring [style*='--index'] {
+        --_d: calc(360 / var(--char-total) * ((var(--index) + 1) * 1deg));
+        --_x: calc(var(--_r) + (var(--_r) * cos(var(--_d))));
+        --_y: calc(var(--_r) + (var(--_r) * sin(var(--_d))));
+        left: var(--_x);
+        top: var(--_y);
+        text-transform: uppercase;
+        font-weight: bold;
+        font-family: monospace;
+        display: inline-block;
+        position: absolute;
+    }
+    /*
+    @keyframes spin {
+        to {
+            rotate: -360deg;
+        }
+    } */
+</style>

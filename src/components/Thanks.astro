@@ -1,0 +1,53 @@
+---
+import Layout from '@layouts/Layout.astro';
+---
+
+<Layout title="That's all">
+    <main>
+        <h2>That's all!</h2>
+        <p>There's still a lot of new features that I didn't dig into here but they include:</p>
+        <ul>
+            <li>nth-of syntax</li>
+            <li>State queries</li>
+            <li>initial-letter</li>
+            <li>CSS Nesting</li>
+            <li>Wide-gamut color spaces</li>
+            <li>Color-mix()</li>
+            <li>CSS Trigonometry</li>
+            <li>Native Stylable Select menus</li>
+        </ul>
+        <p class='thanks'>Thanks!</p>
+    </main>
+</Layout>
+
+<style>
+    h2 {
+        font-size: 2.5rem;
+    }
+    p {
+        font-size: 1.25rem;
+    }
+    main {
+        margin: auto;
+        padding: var(--spacing-xl);
+        width: min(calc(100% - var(--spacing-xl)), 800px);
+        font-size: 20px;
+        line-height: 1.6;
+        text-align: center;
+    }
+    ul {
+        margin-bottom: var(--spacing-xl);
+        li {
+            list-style: inside;
+            font-size: 1.25rem;
+        }
+    }
+
+    .thanks {
+        font-size: 1.75rem;
+        background: color-mix(in hsl, var(--primary), white var(--shade, 10%));
+        color: white;
+        padding: var(--spacing-md) var(--spacing-xl);
+        display: inline-flex;
+    }
+</style>

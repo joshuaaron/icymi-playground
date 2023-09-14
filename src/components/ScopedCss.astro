@@ -1,0 +1,164 @@
+---
+import CodeBlock from '@components/CodeBlock.astro';
+import ExampleBlock from '@components/ExampleBlock.astro';
+import GridLayout from '@components/GridLayout.astro';
+import TransitionHeader from '@components/TransitionHeader.astro';
+
+const problemCode = `<div class="light">
+    <p><a href="…">What color am I?</a></p>
+    <div class="dark">
+        <p><a href="…">What about me?</a></p>
+       <div class="light">
+            <p><a href="…">Am I the same as the first?</p>
+        </div>
+    </div>
+</div>
+`;
+
+const problemCss = `.light { background: #ccc; }
+.dark  { background: #333; }
+.light a { color: red; }
+.dark a { color: yellow; }
+`;
+
+const solutionCode = `@scope (.light) {
+    :scope { background: white; }
+    a { color: blue;}
+}
+
+@scope (.dark) {
+    :scope { background: black; }
+    a { color: #ccf; }
+}`;
+
+const markupCode = `<div class="media-object">
+    <img>
+    <div class="content">
+        ...arbitrary stuff…
+        <img>
+        ...arbitrary stuff…
+    </div>
+</div>
+`;
+
+const scopedCss = `img {
+    object-fit: cover;
+}
+
+@scope (.media-object) to (.content) {
+    img {
+        border-radius: var(--radius-md);
+        transition: scale 0.2s ease-out
+        box-shadow: 0 4px 25px 1px hsl(25, 5%, 80%);
+
+        &:hover {
+            scale: 1.02;
+        }
+    }
+}
+`;
+---
+
+<GridLayout>
+    <div slot='info'>
+        <TransitionHeader>Scoped CSS</TransitionHeader>
+        <p>Scope is an upcoming way to scope the reach of your CSS selectors</p>
+        <p>Here's an example</p>
+        <CodeBlock code={problemCode} lang='html' filename='markup' />
+        <CodeBlock code={problemCss} lang='css' filename='markup' />
+        <p>Using @scope, we can solve this problem like so:</p>
+        <CodeBlock code={solutionCode} lang='css' />
+        <hr />
+        <p>We can also create a scope between the bounds of selectors</p>
+        <CodeBlock code={markupCode} lang='html' />
+        <CodeBlock code={scopedCss} lang='css' />
+    </div>
+
+    <div slot='example'>
+        <ExampleBlock>
+            <div class='problem'>
+                <div class='light'>
+                    <p><a href='…'>What color am I?</a></p>
+                    <div class='dark'>
+                        <p><a href='…'>What about me?</a></p>
+                        <div class='light'>
+                            <p><a href='…'>Am I the same as the first?</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ExampleBlock>
+        <ExampleBlock>
+            <div class='media-object'>
+                <h2>Display Image:</h2>
+                <div class='wrapper'>
+                    <img
+                        src='https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?auto=compress&cs=tinysrgb&w=500'
+                        alt='mountain'
+                    />
+                </div>
+                <p>here's some cool smaller mountain shots</p>
+                <div class='content'>
+                    <img
+                        src='https://images.pexels.com/photos/361104/pexels-photo-361104.jpeg?auto=compress&cs=tinysrgb&w=250'
+                        alt='other mountain'
+                    />
+                    <img
+                        src='https://images.pexels.com/photos/2407636/pexels-photo-2407636.jpeg?auto=compress&cs=tinysrgb&w=250'
+                        alt='other mountain 2'
+                    />
+                </div>
+            </div>
+        </ExampleBlock>
+    </div>
+</GridLayout>
+
+<style>
+    .problem {
+        .light {
+            background: #ccc;
+        }
+        .dark {
+            background: #333;
+        }
+        .light a {
+            color: red;
+        }
+        .dark a {
+            color: yellow;
+        }
+        div {
+            padding: var(--spacing-xl);
+
+            & > div {
+                margin-left: var(--spacing-xl);
+            }
+        }
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+    .content {
+        display: flex;
+        gap: var(--spacing-md);
+    }
+
+    @scope (.media-object) to (.content) {
+        img {
+            border-radius: var(--radius-md);
+            filter: grayscale(0);
+            transition: scale 0.2s ease-out, filter 0.2s ease-out;
+            box-shadow: 0 4px 25px 1px hsl(25, 5%, 80%);
+
+            &:hover {
+                scale: 1.02;
+            }
+        }
+    }
+</style>
